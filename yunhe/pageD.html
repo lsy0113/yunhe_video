@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>运河万象・数影新生</title>
+		<meta charset="UTF-8">
+		<style type="text/css">
+        html,body{
+        	    width:100%;
+               height:100%;
+               margin:0px;
+              }
+		body{
+			color: #333;
+			line-height: 1.6;
+			font-family: "隶书", "LiSu", "SimLi", serif; 
+			background-color: #f9f6f0;
+
+		}
+		
+		ul{
+		    list-style-type:none;
+		    	margin:0px auto;
+		    	padding:0px;
+		  }
+		.menu{
+		    	background-color:#353535;
+		    	color:#ffffff;
+		    	width:100%;
+			font-family: 隶书;
+			font-size: 24px;
+		  }
+		.menu ul{
+		    	width:100%;
+		    	display:flex;
+		    	justify-content:center;
+		  }
+		.menu ul li{
+		    	width:25%;
+		    	line-height:50px;
+		    	text-align:center;
+		    	position: relative;
+			overflow: hidden;
+			transition: all 0.3s ease;
+		}
+		.menu ul li a {
+			display: block;
+			width: 100%;
+			height: 100%;
+			color: #ffffff;
+			text-decoration: none;
+			transition: all 0.3s ease;
+		}
+		.menu ul li.active {
+			background-color: #753F2D;
+			font-weight: bold;
+		}
+		.menu ul li.active a {
+			color: #ffffff;
+			font-weight: bold;
+		}
+		.menu ul li a:hover {
+			color: #ffffff;
+			text-decoration: underline;
+		}
+		/* 交互效果样式 */
+		.menu ul li:hover {
+			background-color: #555555;
+			cursor: pointer;
+			transform: scale(1.05);
+		}
+		.menu ul li.active:hover {
+			background-color: #753F2D;
+			transform: scale(1.05);
+		}
+		.ripple {
+			position: absolute;
+			border-radius: 50%;
+			background-color: rgba(255, 255, 255, 0.5);
+			transform: scale(0);
+			animation: ripple-animation 0.6s ease-out;
+		}
+		@keyframes ripple-animation {
+			to {
+				transform: scale(4);
+				opacity: 0;
+			}
+		}
+
+/* 音乐控制按钮样式 */
+.music-control {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(117, 63, 45, 0.8);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.music-control:hover {
+    background-color: rgba(117, 63, 45, 1);
+    transform: scale(1.1);
+}
+
+#music-icon {
+    font-size: 24px;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.music-playing #music-icon {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+        .header-content {
+			width:100%;
+			height:200px;
+			background-image: url("img/home1.jpg");
+			background-size: cover;
+			background-position: 70% 90%;
+            background-repeat: no-repeat;
+            margin: 0 auto;
+            padding: 0 auto;
+			display: flex;
+            flex-direction: column;
+		    justify-content: center; 
+			align-items: center; 
+			text-align: center; 
+			color: white;
+		    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+		}
+		
+        
+        .subtitle {
+            font-size: 24px;
+            margin: 0 auto;
+        }
+		
+		/* 视频容器样式 */
+		.video-section {
+			width: 80%;
+			max-width: 1000px;
+			margin: 40px auto;
+			padding: 20px;
+			text-align: center;
+		}
+		
+		.video-section h2 {
+			color: #634130;
+			margin-bottom: 30px;
+			font-size: 32px;
+		}
+		
+		.video-container {
+			margin-bottom: 40px;
+			padding: 20px;
+			background-color: #fff;
+			border-radius: 10px;
+			box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+			transition: transform 0.3s ease;
+		}
+		
+		.video-container:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+		}
+		
+		.video-container h3 {
+			color: #753F2D;
+			margin-bottom: 15px;
+			font-size: 24px;
+		}
+		
+		.video-player {
+			width: 100%;
+			height: 500px;
+			border: none;
+			border-radius: 5px;
+		}
+		
+		.video-description {
+			margin-top: 15px;
+			font-size: 16px;
+			color: #666;
+			line-height: 1.6;
+		}
+		
+		/* 新增：加载提示样式（跳转时用） */
+		.loading {
+		    position: fixed;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+		    background-color: rgba(44, 62, 80, 0.9);
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    font-size: 28px;
+		    color: #ffffff;
+		    z-index: 9999;
+		    font-family: 隶书;
+		    display: none;
+		}
+		
+		.loading::after {
+		    content: '';
+		    display: inline-block;
+		    width: 30px;
+		    height: 30px;
+		    margin-left: 20px;
+		    border: 3px solid #ffffff;
+		    border-radius: 50%;
+		    border-top-color: transparent;
+		    animation: spin 1s linear infinite;
+		}
+		
+		@keyframes spin {
+		    0% { transform: rotate(0deg); }
+		    100% { transform: rotate(360deg); }
+		}
+    </style>
+</head>
+<body>
+    <!-- 加载提示（跳转时显示） -->
+    <div class="loading" id="loading">正在加载页面...</div>
+    
+    <header>
+        <div class="header-content">
+            <h1>运河万象・数影新生</h1>
+            <p class="subtitle">以 AI 为笔，绘运河千年盛景；以影像为媒，传华夏文脉风华</p>
+        </div>
+    </header>
+    <!-- 背景音乐 -->
+    <audio id="background-music" loop>
+        <source src="music/backgroundmusic.mp3" type="audio/mpeg">
+        您的浏览器不支持音频元素。
+     </audio>
+    
+    <!-- 音乐控制按钮 -->
+    <div id="music-control" class="music-control">
+        <span id="music-icon">🎵</span>
+    </div>
+	<div class="menu">
+	      <ul>
+	        <li id="homeBtn"><a href="javascript:void(0);" title="网站首页">网站首页</a></li>
+	        <li id="historyBtn"><a href="javascript:void(0);" title="运河历史">运河历史</a></li>
+	        <li id="cultureBtn"><a href="javascript:void(0);" title="运河文化">运河文化</a></li>
+	        <li id="videoBtn" class="active"><a href="javascript:void(0);" title="数字影像">数字影像</a></li>
+	      </ul>
+	</div>
+	
+	<div class="video-section">
+		<h2>运河数字影像展示</h2>
+		
+		<div class="video-container">
+			<h3>桥上的印记</h3>
+			<video class="video-player" controls>
+				<source src="vedio/桥上的印记.mp4" type="video/mp4">
+				您的浏览器不支持视频播放。
+			</video>
+		</div>
+		
+		<div class="video-container">
+			<h3>运河声影</h3>
+			<video class="video-player" controls>
+				<source src="vedio/运河声影.mp4" type="video/mp4">
+				您的浏览器不支持视频播放。
+			</video>
+		</div>
+
+		<div class="video-container">
+			<h3>运河恋书</h3>
+			<video class="video-player" controls>
+				<source src="vedio/运河恋书.mp4" type="video/mp4">
+				您的浏览器不支持视频播放。
+			</video>
+		</div>
+
+		<div class="video-container">
+			<h3>运河上的米香</h3>
+			<video class="video-player" controls>
+				<source src="vedio/运河上的米香.mp4" type="video/mp4">
+				您的浏览器不支持视频播放。
+			</video>
+		</div>
+	</div>
+
+<script>
+// 页面加载时初始化
+window.onload = function() {
+    // 音乐初始化
+    const music = document.getElementById('background-music');
+    const musicControl = document.getElementById('music-control');
+    const musicIcon = document.getElementById('music-icon');
+    
+    // 默认暂停，用户点击后开始播放
+    musicIcon.textContent = '🎵';
+    
+    // ========== 新增：导航跳转逻辑 ==========
+    initNavigation();
+};
+
+// ========== 新增：导航跳转核心函数 ==========
+function initNavigation() {
+    const loading = document.getElementById('loading');
+    const homeBtn = document.getElementById('homeBtn');
+    const historyBtn = document.getElementById('historyBtn');
+    const cultureBtn = document.getElementById('cultureBtn');
+    const videoBtn = document.getElementById('videoBtn');
+    
+    // 封装跳转函数（带加载动画+错误处理）
+    function navigateTo(pageUrl) {
+        // 显示加载动画
+        loading.style.display = 'flex';
+        
+        // 暂停背景音乐
+        const audio = document.getElementById('background-music');
+        if (audio) audio.pause();
+        
+        // 延迟跳转，提升体验
+        setTimeout(() => {
+            try {
+                window.location.href = pageUrl;
+            } catch (error) {
+                // 跳转失败处理
+                loading.style.display = 'none';
+                alert(`跳转失败，请检查${pageUrl}文件是否存在！`);
+                // 恢复音乐播放
+                if (audio) audio.play();
+            }
+        }, 500);
+    }
+    
+    // 首页按钮：跳转到index.html
+    homeBtn.addEventListener('click', function() {
+        navigateTo('index.html');
+    });
+    
+    // 历史页按钮：跳转到pageB.html
+    historyBtn.addEventListener('click', function() {
+        navigateTo('pageB.html');
+    });
+    
+    // 文化页按钮：跳转到pageC.html
+    cultureBtn.addEventListener('click', function() {
+        navigateTo('pageC.html');
+    });
+    
+    // 视频页按钮：点击回到顶部+视觉反馈
+    videoBtn.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        // 高亮反馈
+        this.classList.remove('active');
+        setTimeout(() => {
+            this.classList.add('active');
+        }, 100);
+    });
+}
+
+// 音乐控制逻辑
+const musicControl = document.getElementById('music-control');
+const musicIcon = document.getElementById('music-icon');
+const audio = document.getElementById('background-music');
+let isPlaying = false;
+
+musicControl.addEventListener('click', function() {
+    if (isPlaying) {
+        audio.pause();
+        musicControl.classList.remove('music-playing');
+        musicIcon.textContent = '🎵';
+    } else {
+        audio.play().catch(err => {
+            console.log('自动播放失败，请手动点击播放:', err);
+            alert('浏览器限制自动播放，请点击页面任意位置后再次尝试播放音乐');
+        });
+        musicControl.classList.add('music-playing');
+        musicIcon.textContent = '🎶';
+    }
+    isPlaying = !isPlaying;
+});
+</script>
+
+</body>
+</html>
